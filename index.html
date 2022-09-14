@@ -163,7 +163,7 @@ var _hmt = _hmt || [];
 <li>Framework: LibTorch 1.8.2 (C++)、PyTorch 1.8.2 (python)</li>
 <li>Goal: 搭建两层全连接层网络并分类 MNIST </li>
 </ol>
-<p>***Key Words: ***环境配置、网络搭建、库自带数据集读取</p>
+<p><strong>Key Words:</strong> 环境配置、网络搭建、库自带数据集读取</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/jeromefan/Towards-NLP-LibTorch/tree/main/FC-MNIST">完整代码</a></p>
 <h1 id="C-环境配置"><a href="#C-环境配置" class="headerlink" title="C++环境配置"></a>C++环境配置</h1><p>基于个人习惯，我将下载好的 <code>libtorch-shared-with-deps-1.8.2%2Bcu111.zip</code> 解压到 <code>/usr/local</code> 下。</p>
 <p>创建一个工作目录 <code>libtorch_test</code>，编辑 Visual Studio Code 中 <code>C/C++:编辑配置(Json)</code>，在打开的 <code>c_cpp_properties.json</code> 文件的 <code>includePath</code> 下追加，修改后应为：</p>
@@ -181,7 +181,8 @@ var _hmt = _hmt || [];
 
 <p>可以看到，<code>torch/torch.h</code> 也并不会报找不到的错误了。</p>
 <p>命令行中输入 <code>bash run.sh</code>，成功编译运行后即可得到一个三维的对角矩阵，张量类型为 <code>CPUFloatType</code>。</p>
-<h1 id="代码详解"><a href="#代码详解" class="headerlink" title="代码详解"></a>代码详解</h1><p>【面向熟练PyTorch，新入门LibTorch。】</p>
+<h1 id="Python-代码详解"><a href="#Python-代码详解" class="headerlink" title="Python 代码详解"></a>Python 代码详解</h1><p>略</p>
+<h1 id="C-代码详解"><a href="#C-代码详解" class="headerlink" title="C++ 代码详解"></a>C++ 代码详解</h1><p>【面向熟练PyTorch，新入门LibTorch。】</p>
 <h2 id="模型定义"><a href="#模型定义" class="headerlink" title="模型定义"></a>模型定义</h2><p>欲在头文件中定义一个名为 <code>XXX</code> 具有两层全连接层的模型，构造时需要参数 <code>int a</code> 和 <code>int b</code>，则基本结构为：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">XXXImpl</span> : <span class="keyword">public</span> torch::nn::Module</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">XXXImpl</span>(<span class="type">int</span> a, <span class="type">int</span> b);</span><br><span class="line">    <span class="function">torch::Tensor <span class="title">forward</span><span class="params">(torch::Tensor x)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    torch::nn::Linear fc1;</span><br><span class="line">    torch::nn::Linear fc2;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">TORCH_MODULE</span>(XXX);</span><br></pre></td></tr></table></figure>
 
