@@ -16,7 +16,7 @@
 <meta property="og:description" content="Intro OS: Ubuntu 20.04 Editor: Visual Studio Code Build Tool: CMake 3.16.3 Framework: LibTorch 1.8.2 (CUDA 11.1) Goal: 搭建两层全连接层网络并分类 MNIST   环境配置基于个人习惯，我将下载好的 libtorch-shared-with-deps-1.8.2%2Bcu111.z">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-09-04T16:33:09.503Z">
-<meta property="article:modified_time" content="2022-09-14T12:07:42.649Z">
+<meta property="article:modified_time" content="2022-09-14T12:08:34.029Z">
 <meta property="article:author" content="Jerome">
 <meta name="twitter:card" content="summary">
   
@@ -209,24 +209,16 @@ var _hmt = _hmt || [];
 <p>遍历 <code>dataloader</code> 时应：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> &amp;batch : *train_loader)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">auto</span> data = batch.data.<span class="built_in">view</span>(&#123;batch_size, <span class="number">-1</span>&#125;).<span class="built_in">to</span>(device);</span><br><span class="line">    <span class="keyword">auto</span> target = batch.target.<span class="built_in">to</span>(device);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h4><ol>
-<li>device：</li>
-</ol>
+<h4 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h4><p>device：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> cuda_available = torch::cuda::<span class="built_in">is_available</span>();</span><br><span class="line"><span class="function">torch::Device <span class="title">device</span><span class="params">(cuda_available ? torch::kCUDA : torch::kCPU)</span></span>;</span><br></pre></td></tr></table></figure>
 
-<ol start="2">
-<li>optimizer:</li>
-</ol>
+<p>optimizer:</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">torch::<span class="function">optim::SGD <span class="title">optimizer</span><span class="params">(model-&gt;parameters(), torch::optim::SGDOptions(learning_rate))</span></span>;</span><br><span class="line">optimizer.<span class="built_in">zero_grad</span>();</span><br><span class="line">optimizer.<span class="built_in">step</span>();</span><br></pre></td></tr></table></figure>
 
-<ol start="3">
-<li>loss_fn：</li>
-</ol>
+<p>loss_fn：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> loss = torch::nn::functional::<span class="built_in">cross_entropy</span>(output, target);</span><br><span class="line">loss.<span class="built_in">backward</span>();</span><br></pre></td></tr></table></figure>
 
-<ol start="4">
-<li>张量相关：</li>
-</ol>
+<p>张量相关：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 形状</span></span><br><span class="line">data.<span class="built_in">sizes</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 某一维度</span></span><br><span class="line">data.<span class="built_in">size</span>(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// from tensor to scalar</span></span><br><span class="line">loss.<span class="built_in">item</span>&lt;<span class="type">double</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="comment">// pred</span></span><br><span class="line"><span class="keyword">auto</span> prediction = output.<span class="built_in">argmax</span>(<span class="number">1</span>);</span><br><span class="line">num_correct += prediction.<span class="built_in">eq</span>(target).<span class="built_in">sum</span>().<span class="built_in">item</span>&lt;<span class="type">int64_t</span>&gt;();</span><br></pre></td></tr></table></figure>
       
 
